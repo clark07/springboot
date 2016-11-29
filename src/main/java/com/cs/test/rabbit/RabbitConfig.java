@@ -1,34 +1,23 @@
 package com.cs.test.rabbit;
 
-import com.cs.test.rabbit.listener.MessageListenerHandler;
-import com.cs.test.rabbit.listener.MessageProcessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
-import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitAdmin;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.amqp.support.converter.SimpleMessageConverter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.context.annotation.ImportResource;
 
 /**
  *
  */
 @EnableRabbit
 @Configuration
+@ImportResource(locations = {"classpath:spring/application-rabbit.xml"})
 public class RabbitConfig {
 
-
+/*
 	@Value("${spring.rabbitmq.host}")
 	private String rabbitHost;
 	@Value("${spring.rabbitmq.username}")
@@ -36,18 +25,18 @@ public class RabbitConfig {
 	@Value("${spring.rabbitmq.password}")
 	private String rabbitPassword;
 	@Value("${spring.rabbitmq.requested-heartbeat}")
-	private int rabbitRequestedHeartbeat;
+	private int rabbitRequestedHeartbeat;*/
 /*	@Value("${spring.rabbitmq.connection-timeout}")
 	private int rabbitConnectionTimeout;
 	@Value("${spring.rabbitmq.cache.channel.checkout-timeout}")
 	private int rabbitChannelCheckoutTimeout;*/
-
+/*
 	private String springBootDemoQueue= "spring_boot_demo_queue";
 
 	@Autowired
-	private MessageProcessor demoMessageHandlerProcessor;
+	private MessageProcessor demoMessageHandlerProcessor;*/
 
-	@Bean
+	/*@Bean
 	public ConnectionFactory rabbitConnectionFactory() {
 		com.rabbitmq.client.ConnectionFactory rabbitConnectionFactory = new com.rabbitmq.client.ConnectionFactory();
 		rabbitConnectionFactory.setHost(rabbitHost);
@@ -63,7 +52,6 @@ public class RabbitConfig {
 		return connectionFactory;
 	}
 
-	@Bean("haArgs")
 	public Map<String, Object> queueHaArgs(){
 		Map<String, Object> argsMap = new HashMap<>();
 		argsMap.put("x-ha-policy", "all");
@@ -80,10 +68,10 @@ public class RabbitConfig {
 	@Bean
 	public Queue springBootDemoQueue() {
 		return new Queue(springBootDemoQueue, true, false, false, queueHaArgs());
-	}
+	}*/
 
 	@Bean
-	public Jackson2JsonMessageConverter jackson2JsonMessageConverter(){
+	public Jackson2JsonMessageConverter jsonConverter(){
 		Jackson2JsonMessageConverter jackson2JsonMessageConverter = new Jackson2JsonMessageConverter();
 
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -93,12 +81,12 @@ public class RabbitConfig {
 		jackson2JsonMessageConverter.setJsonObjectMapper(objectMapper);
 		return jackson2JsonMessageConverter;
 	}
-	@Bean
+/*	@Bean
 	public SimpleMessageConverter simpleMessageConverter(){
 		return new SimpleMessageConverter();
-	}
+	}*/
 
-	@Bean
+/*	@Bean
 	public RabbitTemplate springBootDemoQueueSender() {
 		RabbitTemplate rabbitTemplate = new RabbitTemplate(rabbitConnectionFactory());
 		rabbitTemplate.setQueue(springBootDemoQueue);
@@ -106,12 +94,12 @@ public class RabbitConfig {
 		rabbitTemplate.setMessageConverter(jackson2JsonMessageConverter());
 
 		return rabbitTemplate;
-	}
-
+	}*/
+/*
 	@Bean("springBootDemoQueueListenerHandler")
 	public MessageListenerHandler springBootDemoQueueListenerHandler(){
 		MessageListenerHandler messageListenerHandler = new MessageListenerHandler(springBootDemoQueue, rabbitConnectionFactory(), demoMessageHandlerProcessor, jackson2JsonMessageConverter());
-		messageListenerHandler.setConcurrentConsumers(1);
+		messageListenerHandler.setConcurrentConsumers(1, 10);
 
 		return messageListenerHandler;
 
@@ -121,6 +109,28 @@ public class RabbitConfig {
 	public RabbitAdmin rabbitAdmin(ConnectionFactory rabbitConnectionFactory) {
 		return new RabbitAdmin(rabbitConnectionFactory);
 	}
+
+
+	private final static String demo_q1 = "demo_q1";
+	private final static String demo_q2 = "demo_q2";
+	private final static String demo_q3 = "demo_q3";
+	private final static String demo_q4 = "demo_q4";
+	@Bean
+	public Queue demo_q1(){
+		return new Queue(demo_q1,true, false, false, queueHaArgs());
+	}
+	@Bean
+	public Queue demo_q2(){
+		return new Queue(demo_q2,true, false, false, queueHaArgs());
+	}
+	@Bean
+	public Queue demo_q3(){
+		return new Queue(demo_q3,true, false, false, queueHaArgs());
+	}
+	@Bean
+	public Queue demo_q4(){
+		return new Queue(demo_q4,true, false, false, queueHaArgs());
+	}*/
 
 /*	@Bean
 	public DirectExchange e1() {

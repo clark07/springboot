@@ -7,13 +7,11 @@ import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.support.converter.MessageConverter;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
 
 /**
  * Created by admin on 2016/11/17.
  */
-public class MessageListenerHandler implements MessageHandler,InitializingBean,DisposableBean {
+public class MessageListenerHandler implements MessageHandler {
 
 	private final static Logger log = LoggerFactory.getLogger(MessageListenerHandler.class);
 
@@ -26,6 +24,9 @@ public class MessageListenerHandler implements MessageHandler,InitializingBean,D
 		container.setConnectionFactory(connectionFactory);
 		container.setAcknowledgeMode(AcknowledgeMode.MANUAL);
 
+		//container.setStartConsumerMinInterval(500);
+		//container.setStopConsumerMinInterval(500);
+
 		MessageListenerImpl listener = new MessageListenerImpl();
 		listener.setMessageProcessor(messageProcessor);
 		listener.setMessageConverter(messageConverter);
@@ -33,9 +34,18 @@ public class MessageListenerHandler implements MessageHandler,InitializingBean,D
 	}
 
 	public void setConcurrentConsumers(int concurrentConsumers){
-		container.setConcurrentConsumers(concurrentConsumers);
+		setConcurrentConsumers(concurrentConsumers, null);
+	}
+	public void setMaxConcurrentConsumers(int maxConcurrentConsumers){
+		container.setMaxConcurrentConsumers(maxConcurrentConsumers);
 	}
 
+	public void setConcurrentConsumers(int concurrentConsumers, Integer maxConcurrentConsumers){
+		container.setConcurrentConsumers(concurrentConsumers);
+		if(maxConcurrentConsumers != null){
+			container.setMaxConcurrentConsumers(maxConcurrentConsumers);
+		}
+	}
 	@Override
 	public void start() {
 		log.info(String.format("rabbit mq receive msg start, %s", container.getQueueNames())); container.initialize();
@@ -44,26 +54,9 @@ public class MessageListenerHandler implements MessageHandler,InitializingBean,D
 	}
 
 	@Override
-	public void stop() {
-		if (container != null) {
-			container.stop();
-		} log.info("rabbit mq receive msg stoped");
-	}
-
-	@Override
 	public void shutdown() {
 		if (container != null) {
 			container.shutdown();
 		} log.info("rabbit mq receive msg shutdowned");
-	}
-
-	@Override
-	public void destroy() throws Exception {
-		this.shutdown();
-	}
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		this.start();
 	}
 }

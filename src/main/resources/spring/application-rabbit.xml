@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
+
+
+    <bean id="testSpring" class="com.cs.test.rabbit.TestSpring"></bean>
+
+    <bean id="rcf" class="com.rabbitmq.client.ConnectionFactory">
+        <property name="host" value="${spring.rabbitmq.host}" />
+        <property name="requestedHeartbeat" value="20" />
+    </bean>
+    <rabbit:connection-factory id="connectionFactory" connection-factory="rcf"  username="${spring.rabbitmq.username}" password="${spring.rabbitmq.password}"/>
+
+    <rabbit:admin id="rabbitAdmin" connection-factory="connectionFactory"/>
+
+    <rabbit:queue-arguments id="haArgs">
+        <entry key="x-ha-policy" value="all"/>
+    </rabbit:queue-arguments>
+
+    <!--queue begin-->
+    <rabbit:queue id="demo_q1" name="demo_q1" durable="true" exclusive="false" auto-delete="false" queue-arguments="haArgs"/>
+    <rabbit:queue id="demo_q2" name="demo_q2" durable="true" exclusive="false" auto-delete="false" queue-arguments="haArgs"/>
+    <rabbit:queue id="demo_q3" name="demo_q3" durable="true" exclusive="false" auto-delete="false" queue-arguments="haArgs"/>
+    <rabbit:queue id="demo_q4" name="demo_q4" durable="true" exclusive="false" auto-delete="false" queue-arguments="haArgs"/>
+    <!--queue end-->
+
+    <!--exchange begin-->
+    <rabbit:direct-exchange name="demo_e1" durable="true">
+        <rabbit:bindings>
+            <rabbit:binding key="q1" queue="demo_q1" />
+            <rabbit:binding key="q2" queue="demo_q2" />
+            <rabbit:binding key="q3" queue="demo_q3" />
+        </rabbit:bindings>
+    </rabbit:direct-exchange>
+
+    <rabbit:fanout-exchange name="demo_e2" durable="true">
+        <rabbit:bindings>
+            <rabbit:binding queue="demo_q3"/>
+            <rabbit:binding queue="demo_q4"/>
+        </rabbit:bindings>
+    </rabbit:fanout-exchange>
+
+    <rabbit:topic-exchange name="demo_e3" durable="true">
+        <rabbit:bindings>
+            <rabbit:binding pattern="q2" queue="demo_q2"/>
+            <rabbit:binding pattern="q*" queue="demo_q3"/>
+            <rabbit:binding pattern="#" queue="demo_q4"/>
+        </rabbit:bindings>
+    </rabbit:topic-exchange>
+    <!--exchange end-->
+
+    <rabbit:template id="q1Sender" queue="demo_q1" routing-key="demo_q1" connection-factory="connectionFactory" message-converter="jsonConverter"/>
+    <rabbit:template id="e1Sender" exchange="demo_e1" connection-factory="connectionFactory" message-converter="jsonConverter"/>
+    <rabbit:template id="e2Sender" exchange="demo_e2" connection-factory="connectionFactory" message-converter="jsonConverter"/>
+    <rabbit:template id="e3Sender" exchange="demo_e3" connection-factory="connectionFactory" message-converter="jsonConverter"/>
+
+    <bean id="q1Handler" class="com.cs.test.rabbit.listener.MessageListenerHandler" init-method="start" destroy-method="shutdown">
+        <constructor-arg name="connectionFactory" ref="connectionFactory"></constructor-arg>
+        <constructor-arg name="messageConverter" ref="jsonConverter"></constructor-arg>
+        <constructor-arg name="messageProcessor" ref="q1Processor"></constructor-arg>
+        <constructor-arg name="queueName" value="demo_q1"></constructor-arg>
+
+        <property name="concurrentConsumers" value="2"/>
+        <property name="maxConcurrentConsumers" value="10"/>
+    </bean>
+
+    <bean id="q2Handler" class="com.cs.test.rabbit.listener.MessageListenerHandler" init-method="start" destroy-method="shutdown">
+        <constructor-arg name="connectionFactory" ref="connectionFactory"></constructor-arg>
+        <constructor-arg name="messageConverter" ref="jsonConverter"></constructor-arg>
+        <constructor-arg name="messageProcessor" ref="q2Processor"></constructor-arg>
+        <constructor-arg name="queueName" value="demo_q2"></constructor-arg>
+
+        <property name="concurrentConsumers" value="2"/>
+        <property name="maxConcurrentConsumers" value="10"/>
+    </bean>
+
+    <bean id="q3Handler" class="com.cs.test.rabbit.listener.MessageListenerHandler" init-method="start" destroy-method="shutdown">
+        <constructor-arg name="connectionFactory" ref="connectionFactory"></constructor-arg>
+        <constructor-arg name="messageConverter" ref="jsonConverter"></constructor-arg>
+        <constructor-arg name="messageProcessor" ref="q3Processor"></constructor-arg>
+        <constructor-arg name="queueName" value="demo_q3"></constructor-arg>
+
+        <property name="concurrentConsumers" value="2"/>
+        <property name="maxConcurrentConsumers" value="10"/>
+    </bean>
+
+    <bean id="q4Handler" class="com.cs.test.rabbit.listener.MessageListenerHandler" init-method="start" destroy-method="shutdown">
+        <constructor-arg name="connectionFactory" ref="connectionFactory"></constructor-arg>
+        <constructor-arg name="messageConverter" ref="jsonConverter"></constructor-arg>
+        <constructor-arg name="messageProcessor" ref="q4Processor"></constructor-arg>
+        <constructor-arg name="queueName" value="demo_q4"></constructor-arg>
+
+        <property name="concurrentConsumers" value="2"/>
+        <property name="maxConcurrentConsumers" value="10"/>
+    </bean>
+
+
+
+</beans>

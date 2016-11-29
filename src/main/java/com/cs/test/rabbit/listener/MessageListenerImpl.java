@@ -20,7 +20,9 @@ public class MessageListenerImpl implements ChannelAwareMessageListener {
 			Object scMessage= messageConverter.fromMessage(message);
 			try {
 				try {
-					//logger.info(String.format("begin process [message:%s] ", new String(message.getBody())));
+					if(logTrace){
+						logger.info(String.format("begin process [message:%s] ", new String(message.getBody())));
+					}
 				} catch (Exception ignore) {
 				}
 
@@ -28,7 +30,9 @@ public class MessageListenerImpl implements ChannelAwareMessageListener {
 				channel.basicAck(message.getMessageProperties().getDeliveryTag(), true);
 
 				try {
-					//logger.info(String.format("end process [message:%s] ", new String(message.getBody())));
+					if(logTrace){
+						logger.info(String.format("end process [message:%s] ", new String(message.getBody())));
+					}
 				} catch (Exception ignore) {
 				}
 			} catch (Exception e) {
@@ -45,6 +49,12 @@ public class MessageListenerImpl implements ChannelAwareMessageListener {
 	private MessageProcessor messageProcessor;
 	
 	private MessageConverter messageConverter;
+
+	private boolean logTrace;
+
+	public void setLogTrace(boolean logTrace) {
+		this.logTrace = logTrace;
+	}
 
 	public void setMessageProcessor(MessageProcessor messageProcessor) {
 		this.messageProcessor = messageProcessor;
