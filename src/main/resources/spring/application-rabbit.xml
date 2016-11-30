@@ -3,16 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
 
-
-    <bean id="testSpring" class="com.cs.test.rabbit.TestSpring"></bean>
-
-    <bean id="rcf" class="com.rabbitmq.client.ConnectionFactory">
-        <property name="host" value="${spring.rabbitmq.host}" />
-        <property name="requestedHeartbeat" value="20" />
-    </bean>
-    <rabbit:connection-factory id="connectionFactory" connection-factory="rcf"  username="${spring.rabbitmq.username}" password="${spring.rabbitmq.password}"/>
-
-    <rabbit:admin id="rabbitAdmin" connection-factory="connectionFactory"/>
+    <rabbit:connection-factory id="connectionFactory" host="${spring.rabbitmq.host}" requested-heartbeat="20" username="${spring.rabbitmq.username}" password="${spring.rabbitmq.password}"/>
 
     <rabbit:queue-arguments id="haArgs">
         <entry key="x-ha-policy" value="all"/>
@@ -43,17 +34,55 @@
 
     <rabbit:topic-exchange name="demo_e3" durable="true">
         <rabbit:bindings>
-            <rabbit:binding pattern="q2" queue="demo_q2"/>
-            <rabbit:binding pattern="q*" queue="demo_q3"/>
+            <rabbit:binding pattern="q.2" queue="demo_q2"/>
+            <rabbit:binding pattern="q.*" queue="demo_q3"/>
             <rabbit:binding pattern="#" queue="demo_q4"/>
         </rabbit:bindings>
     </rabbit:topic-exchange>
     <!--exchange end-->
 
+
+   <!-- <rabbit:admin id="rabbitAdmin" connection-factory="connectionFactory"/> 该方法调用存在问题-->
+
+
+    <bean id="rabbitAdmin" class="org.springframework.amqp.rabbit.core.RabbitAdmin" init-method="initialize">
+        <constructor-arg name="connectionFactory" ref="connectionFactory"/>
+    </bean>
+
+<!--
     <rabbit:template id="q1Sender" queue="demo_q1" routing-key="demo_q1" connection-factory="connectionFactory" message-converter="jsonConverter"/>
     <rabbit:template id="e1Sender" exchange="demo_e1" connection-factory="connectionFactory" message-converter="jsonConverter"/>
     <rabbit:template id="e2Sender" exchange="demo_e2" connection-factory="connectionFactory" message-converter="jsonConverter"/>
-    <rabbit:template id="e3Sender" exchange="demo_e3" connection-factory="connectionFactory" message-converter="jsonConverter"/>
+    <rabbit:template id="e3Sender" exchange="demo_e3" connection-factory="connectionFactory" message-converter="jsonConverter"/>-->
+
+    <bean id="q1Sender" class="com.cs.test.rabbit.sender.MessageQueueSender">
+        <constructor-arg name="connectionFactory" ref="connectionFactory"/>
+        <constructor-arg name="queueName" value="demo_q1"/>
+        <constructor-arg name="messageConverter" ref="jsonConverter"/>
+        <property name="needSendLog" value="true"/>
+    </bean>
+
+    <bean id="e1Sender" class="com.cs.test.rabbit.sender.MessageExchangeSender">
+        <constructor-arg name="connectionFactory" ref="connectionFactory"/>
+        <constructor-arg name="exchangeName" value="demo_e1"/>
+        <constructor-arg name="messageConverter" ref="jsonConverter"/>
+        <property name="needSendLog" value="true"/>
+    </bean>
+
+    <bean id="e2Sender" class="com.cs.test.rabbit.sender.MessageExchangeSender">
+        <constructor-arg name="connectionFactory" ref="connectionFactory"/>
+        <constructor-arg name="exchangeName" value="demo_e2"/>
+        <constructor-arg name="messageConverter" ref="jsonConverter"/>
+        <property name="needSendLog" value="true"/>
+    </bean>
+
+    <bean id="e3Sender" class="com.cs.test.rabbit.sender.MessageExchangeSender">
+        <constructor-arg name="connectionFactory" ref="connectionFactory"/>
+        <constructor-arg name="exchangeName" value="demo_e3"/>
+        <constructor-arg name="messageConverter" ref="jsonConverter"/>
+        <property name="needSendLog" value="true"/>
+    </bean>
+
 
     <bean id="q1Handler" class="com.cs.test.rabbit.listener.MessageListenerHandler" init-method="start" destroy-method="shutdown">
         <constructor-arg name="connectionFactory" ref="connectionFactory"></constructor-arg>

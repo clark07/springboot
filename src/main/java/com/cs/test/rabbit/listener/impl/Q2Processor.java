@@ -1,4 +1,4 @@
-package com.cs.test.rabbit.listener.processor;
+package com.cs.test.rabbit.listener.impl;
 
 import com.cs.test.rabbit.listener.MessageProcessor;
 import org.slf4j.Logger;
@@ -10,13 +10,13 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class Q1Processor implements MessageProcessor {
+public class Q2Processor implements MessageProcessor {
 
-	private final static Logger log = LoggerFactory.getLogger(Q1Processor.class);
+	private final static Logger log = LoggerFactory.getLogger(Q2Processor.class);
 		
 	@Override
 	public void process(Object message) {
-		log.info("Q1Processor receive-->"+message);
+		log.info("Q2Processor receive-->"+message);
 
 		try{
 			Thread.sleep(100);

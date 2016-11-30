@@ -34,18 +34,12 @@ public class MessageListenerHandler implements MessageHandler {
 	}
 
 	public void setConcurrentConsumers(int concurrentConsumers){
-		setConcurrentConsumers(concurrentConsumers, null);
+		container.setConcurrentConsumers(concurrentConsumers);
 	}
 	public void setMaxConcurrentConsumers(int maxConcurrentConsumers){
 		container.setMaxConcurrentConsumers(maxConcurrentConsumers);
 	}
 
-	public void setConcurrentConsumers(int concurrentConsumers, Integer maxConcurrentConsumers){
-		container.setConcurrentConsumers(concurrentConsumers);
-		if(maxConcurrentConsumers != null){
-			container.setMaxConcurrentConsumers(maxConcurrentConsumers);
-		}
-	}
 	@Override
 	public void start() {
 		log.info(String.format("rabbit mq receive msg start, %s", container.getQueueNames())); container.initialize();

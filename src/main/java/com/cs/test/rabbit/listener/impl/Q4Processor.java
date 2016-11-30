@@ -1,4 +1,4 @@
-package com.cs.test.rabbit.listener.processor;
+package com.cs.test.rabbit.listener.impl;
 
 import com.cs.test.rabbit.listener.MessageProcessor;
 import org.slf4j.Logger;
