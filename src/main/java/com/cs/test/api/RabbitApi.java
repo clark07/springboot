@@ -1,4 +1,4 @@
-package com.cs.test.rabbit;
+package com.cs.test.api;
 
 import com.cs.test.rabbit.bean.DemoMessageBean;
 import com.cs.test.rabbit.sender.MessageExchangeSender;

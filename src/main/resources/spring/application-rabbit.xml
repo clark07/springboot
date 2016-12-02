@@ -124,6 +124,4 @@
         <property name="maxConcurrentConsumers" value="10"/>
     </bean>
 
-
-
 </beans>

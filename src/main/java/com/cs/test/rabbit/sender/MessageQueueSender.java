@@ -31,7 +31,7 @@ public class MessageQueueSender {
 
 	public void send(MessageBean messageBean){
 		if (needSendLog){
-			log.info(String.format("send message to queue(%s) content:%s", rabbitTemplate.getRoutingKey(), ""));
+			log.info(String.format("send message to queue:%s content:%s", rabbitTemplate.getRoutingKey(), ""));
 		}
 
 		rabbitTemplate.convertAndSend(messageBean);
