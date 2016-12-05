@@ -34,6 +34,14 @@ public class JpaApi {
 		return Response.ok(citys).build();
 	}
 
+	@GET
+	@Path("/city/condition")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getCityCondition(@QueryParam("name") String name,@QueryParam("cid") Integer cid) {
+		List<City> citys = cityDao.findByCondition(cid, name);
+		return Response.ok(citys).build();
+	}
+
 	@POST
 	@Path("/city/add")
 	@Produces(MediaType.APPLICATION_JSON)
