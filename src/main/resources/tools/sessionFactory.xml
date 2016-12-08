@@ -6,9 +6,12 @@
   <session-factory>
     <property name="connection.url">jdbc:mysql://10.0.3.19:3306/test_cs</property>
     <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-    <mapping class="com.cs.test.db.entity.City"/>
+      <mapping class="com.cs.test.db.entity.City"/>
     <mapping class="com.cs.test.db.entity.Category"/>
-    <!-- <property name="connection.username"/> -->
+      <mapping class="com.cs.test.db.entity.People"/>
+      <mapping class="com.cs.test.db.entity.Book"/>
+      <mapping class="com.cs.test.db.entity.Chapter"/>
+      <!-- <property name="connection.username"/> -->
     <!-- <property name="connection.password"/> -->
 
     <!-- DB schema will be updated if needed -->

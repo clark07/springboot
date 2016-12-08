@@ -2,8 +2,10 @@ package com.cs.test.api;
 
 import com.cs.test.db.dao.CategoryDao;
 import com.cs.test.db.dao.CityDao;
+import com.cs.test.db.dao.PeopleDao;
 import com.cs.test.db.entity.Category;
 import com.cs.test.db.entity.City;
+import com.cs.test.db.entity.People;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
@@ -24,6 +26,9 @@ public class JpaApi {
 
 	@Autowired
 	private CategoryDao categoryDao;
+
+	@Autowired
+	private PeopleDao peopleDao;
 
 
 	@GET
@@ -57,6 +62,13 @@ public class JpaApi {
 	public Response getCategory(@QueryParam("name") String name) {
 		List<Category> cs = categoryDao.findByName(name);
 		return Response.ok(cs).build();
+	}
+	@GET
+	@Path("/people")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getPeople(@QueryParam("age") @DefaultValue("0") Integer age) {
+		List<People> peoples = peopleDao.findByAgeGreaterThan(age);
+		return Response.ok(peoples).build();
 	}
 
 

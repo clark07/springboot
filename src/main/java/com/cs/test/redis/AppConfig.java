@@ -3,7 +3,6 @@ package com.cs.test.redis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 
@@ -21,8 +20,8 @@ public class AppConfig {
 
 	@Bean
 	public RedisConnectionFactory connectionFactory() {
-
-		return new JedisConnectionFactory(
-				new RedisClusterConfiguration(clusterProperties.getNodes()));
+/*		return new JedisConnectionFactory(
+				new RedisClusterConfiguration(clusterProperties.getNodes()));*/
+		return new JedisConnectionFactory();
 	}
 }

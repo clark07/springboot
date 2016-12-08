@@ -3,18 +3,15 @@ package com.cs.test.rabbit;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
 
 /**
  *
  */
-@EnableRabbit
-@Configuration
-@ImportResource(locations = {"classpath:spring/application-rabbit.xml"})
+//@EnableRabbit
+//@Configuration
+//@ImportResource(locations = {"classpath:spring/application-rabbit.xml"})
 public class RabbitConfig {
 
 /*
