@@ -1,0 +1,30 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="layout">
+<head>
+<title>章节详情</title>
+</head>
+<body>
+	<h1 layout:fragment="header">章节详情</h1>
+	<div layout:fragment="content" class="container">
+<!--		<div class="alert alert-success" th:if="${globalMessage}"
+			th:text="${globalMessage}">Some Success message</div>-->
+		<div class="pull-right">
+			<a th:href="@{'/book/'+${chapter.bookId}}" href="bookDetail.html"> 回到书籍 </a>
+		</div>
+		<dl>
+			<dt>书籍</dt>
+			<dd id="bookName" th:text="${chapter.bookName}">bookName</dd>
+			<dt>章节</dt>
+			<dd id="chapterName" th:text="${chapter.name}">NAME</dd>
+			<dt>详情</dt>
+			<dd id="content" th:text="${chapter.content}">CONTENT</dd>
+		</dl>
+<!--		<div class="pull-left">
+			<a href="messages" th:href="@{'/delete/' + ${message.id}}">
+				delete </a> | <a href="form.html"
+				th:href="@{'/modify/' + ${message.id}}"> modify </a>
+		</div>-->
+	</div>
+</body>
+</html>

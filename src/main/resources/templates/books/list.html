@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="layout">
+<head>
+<title>所有书籍</title>
+</head>
+<body>
+	<h1 layout:fragment="header">所有书籍</h1>
+	<div layout:fragment="content" class="container">
+<!--		<div class="pull-right">
+			<a href="form.html" th:href="@{/(form)}">Create Message</a>
+		</div>-->
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<td>书名</td>
+					<td>作者</td>
+					<td>书籍简介</td>
+					<td>最新章节</td>
+					<td>书籍详情</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${books.empty}">
+					<td colspan="5">---</td>
+				</tr>
+				<tr th:each="book : ${books}">
+					<td th:text="${book.name}"></td>
+					<td th:text="${book.author}"></td>
+					<td th:text="${book.description}"></td>
+					<td><a href="chapterDetail.html" th:href="@{'/chapter/' + ${book.lastestChapterId}}" th:text="${book.lastestChapterName}">最新章节</a></td>
+					<td><a href="bookDetail.html" th:href="@{'/book/' + ${book.id}}" >章节列表</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

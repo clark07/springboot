@@ -164,4 +164,12 @@ public class Chapter {
 	public void setRetryCount(int retryCount) {
 		this.retryCount = retryCount;
 	}
+
+	public Chapter() {
+	}
+
+	public Chapter(int id, String name) {
+		this.id = id;
+		this.name = name;
+	}
 }

@@ -2,8 +2,12 @@ package com.cs.test.utils;
 
 import com.cs.test.db.entity.Book;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,6 +35,7 @@ public class BookUtils {
 	private final static Pattern p_info = Pattern
 			.compile("<h1>(" + anyChars + ")</h1>" + anyChars + "<p>(" + anyChars + ")</p>("+anyChars+"<p>最新章节：<a"+anyChars+"href=\"("+ anyChars + ")\">("+anyChars+")</a></p>)?");
 	private final static Pattern p_infor = Pattern.compile("<p>(" + anyChars + ")</p>");
+	private final static Pattern p_chapter_name = Pattern.compile("第(" + anyChars + ")章");
 
 	public static void main(String[] args) throws Exception {
 		//LinkedHashMap<String, String> gbk = getChapterMap(HttpUtils.execGet("http://www.biquge.com.tw/16_16273/", "GBK"));
@@ -39,6 +44,41 @@ public class BookUtils {
 
 		Book book = getBookInfo(HttpUtils.execGet("http://www.biquge.com.tw/16_16273/", "GBK"));
 		System.out.println(JsonUtil.getJsonWithoutNullFromObject(book));
+	}
+
+	public static int getIndexByChapterName(String chapterName){
+		if(StringUtils.isBlank(chapterName)){
+			return 0;
+		}
+
+		Matcher m_chapter_name = p_chapter_name.matcher(chapterName);
+		String name = "";
+		if(m_chapter_name.find()){
+			name = m_chapter_name.group(1);
+		}else{
+			return 0;
+		}
+
+		if(name.endsWith("百")){
+			name = name.replace("百", "").replace("十", "")+"百";
+		}else if (name.endsWith("十")){
+			name = name.replace("百", "").replace("十", "")+"十";
+		}
+
+		name = name.replace("百", "00").replace("十", "0").replace("零", "0").replace("一", "1").replace("二","2")
+		.replace("三", "3")
+		.replace("四", "4")
+		.replace("五", "5")
+		.replace("六", "6")
+		.replace("七", "7")
+		.replace("八", "8")
+		.replace("九", "9");
+
+		if(!name.startsWith("0")){
+			name = "1"+name;
+		}
+
+		return NumberUtils.toInt(name);
 	}
 
 	/**

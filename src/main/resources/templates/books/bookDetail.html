@@ -1,0 +1,49 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="layout">
+<head>
+<title>章节内容</title>
+</head>
+<body>
+	<h1 layout:fragment="header">章节内容</h1>
+	<div layout:fragment="content" class="container">
+<!--		<div class="alert alert-success" th:if="${globalMessage}"
+			th:text="${globalMessage}">Some Success message</div>-->
+		<div class="pull-right">
+			<a th:href="@{/}" href="list.html"> 回到书籍列表 </a>
+		</div>
+		<dl>
+<!--			<dt></dt>
+			<dd id="id" th:text="${book.id}">id</dd>-->
+			<dt>书名</dt>
+			<dd id="name" th:text="${book.name}">-</dd>
+			<dt>作者</dt>
+			<dd id="author" th:text="${book.author}">-</dd>
+			<dt>书籍描述</dt>
+			<dd id="description" th:text="${book.description}">-</dd>
+			<dt>最新章节</dt>
+			<dd><a href="chapterDetail.html" th:href="@{'/chapter/' + ${book.lastestChapterId}}" th:text="${book.lastestChapterName}">最新章节</a></dd>
+		</dl>
+		<table class="table table-bordered table-striped">
+			<thead>
+			<tr>
+				<td>章节</td>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:if="${chapters.empty}">
+				<td colspan="1">---</td>
+			</tr>
+			<tr th:each="chapter : ${chapters}">
+				<td><a href="chapterDetail.html" th:href="@{'/chapter/' + ${chapter.id}}" th:text="${chapter.name}">最新章节</a></td>
+			</tr>
+			</tbody>
+		</table>
+<!--		<div class="pull-left">
+			<a href="messages" th:href="@{'/delete/' + ${message.id}}">
+				delete </a> | <a href="form.html"
+				th:href="@{'/modify/' + ${message.id}}"> modify </a>
+		</div>-->
+	</div>
+</body>
+</html>

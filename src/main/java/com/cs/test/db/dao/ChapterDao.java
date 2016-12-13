@@ -30,4 +30,7 @@ public interface ChapterDao extends JpaRepository<Chapter, Integer> {
 	@Modifying
 	@Query("update Chapter c set c.retryCount=c.retryCount+1 where c.id=?1")
 	void refreshChapterRetryInfo(int chapterId);
+
+	@Query("select new Chapter(c.id, c.name) from Chapter c where c.bookId=?1")
+	List<Chapter> getBasicChapterInfo(int bookId);
 }

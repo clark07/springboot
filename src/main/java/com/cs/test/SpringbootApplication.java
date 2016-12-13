@@ -21,7 +21,7 @@ public class SpringbootApplication {
 
 	@Bean
 	public ServletRegistrationBean jerseyServlet() {
-		ServletRegistrationBean registration = new ServletRegistrationBean(new ServletContainer(), "/*");
+		ServletRegistrationBean registration = new ServletRegistrationBean(new ServletContainer(), "/rest/*");
 		// our rest resources will be available in the path /rest/*
 		registration.addInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS, JerseyConfig.class.getName());
 		return registration;

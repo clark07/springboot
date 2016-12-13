@@ -86,4 +86,20 @@ public class BookService {
 	public void refreshChapterRetryInfo(int chapterId) {
 		chapterDao.refreshChapterRetryInfo(chapterId);
 	}
+
+	public List<Book> getAllBook() {
+		return bookDao.findAll();
+	}
+
+	public Book getBook(int bookId) {
+		return bookDao.getOne(bookId);
+	}
+
+	public Chapter getChapter(int chapterId) {
+		return chapterDao.getOne(chapterId);
+	}
+
+	public List<Chapter> getSimpleChapterList(int bookId) {
+		return chapterDao.getBasicChapterInfo(bookId);
+	}
 }
