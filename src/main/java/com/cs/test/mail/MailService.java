@@ -31,7 +31,7 @@ public class MailService {
 	@Value("${spring.mail.username}")
 	private String mailFrom;
 
-	@Value("csnjupt@126.com;576906562@qq.com")
+	@Value("csnjupt@126.com;576906562@qq.com;804210245@qq.com")
 	private String mailTo;
 
 /*
