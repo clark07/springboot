@@ -84,7 +84,7 @@ public class MailService {
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message, true);
 			helper.setFrom(mailFrom);
-			helper.setTo(mailTo);
+			helper.setTo(mailTo.split(";"));
 			helper.setSubject(String.format("书籍%s->章节%s 更新推送", chapter.getBookName(), chapter.getName()));
 
 			String content = chapter.getContent();
@@ -102,7 +102,7 @@ public class MailService {
 			helper.setText(sb.toString(), true);
 			mailSender.send(message);
 		} catch (MessagingException e) {
-			log.info("send notify exception!");
+			log.info("send notify exception!", e);
 		}
 	}
 /*
