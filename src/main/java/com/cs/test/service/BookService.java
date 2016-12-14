@@ -92,11 +92,11 @@ public class BookService {
 	}
 
 	public Book getBook(int bookId) {
-		return bookDao.getOne(bookId);
+		return bookDao.findOne(bookId);
 	}
 
 	public Chapter getChapter(int chapterId) {
-		return chapterDao.getOne(chapterId);
+		return chapterDao.findOne(chapterId);
 	}
 
 	public List<Chapter> getSimpleChapterList(int bookId) {

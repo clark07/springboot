@@ -1,7 +1,10 @@
 package com.cs.test.tasks;
 
+import com.cs.test.mail.MailService;
+import com.cs.test.service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +23,11 @@ public class ScheduleTest {
 	private static AtomicInteger ai1 = new AtomicInteger();
 	private static AtomicInteger ai2 = new AtomicInteger();
 
+	@Autowired
+	private MailService mailService;
+	@Autowired
+	private BookService bookService;
+
 	@Scheduled(fixedRate = 60000)
 	public void testFixRate() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -27,9 +35,10 @@ public class ScheduleTest {
 	}
 
 
-	//@Scheduled(cron = "*/2 * * * * ?")
+	@Scheduled(cron = "30 27 * * * ?")
 	public void test(){
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		log.info(String.format("任务2:%s-->%s", sdf.format(new Date()), ai2.incrementAndGet()));
+		//mailService.sendTemplateMail();
+		//Chapter chapter = bookService.getChapter(176736);
+		//mailService.sendChapterNotify(chapter);
 	}
 }

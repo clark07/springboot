@@ -2,6 +2,7 @@ package com.cs.test.tasks;
 
 import com.cs.test.db.entity.Book;
 import com.cs.test.db.entity.Chapter;
+import com.cs.test.mail.MailService;
 import com.cs.test.service.BookService;
 import com.cs.test.utils.BookUtils;
 import com.cs.test.utils.HttpClientManager;
@@ -18,7 +19,10 @@ import org.springframework.web.client.RestTemplate;
 
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by admin on 2016/12/6.
@@ -40,8 +44,12 @@ public class BookJob {
 	@Autowired
 	private HttpClientManager httpClientManager;
 
-	private static ExecutorService es = new ThreadPoolExecutor(10, 30, 30, TimeUnit.SECONDS, new LinkedBlockingQueue<>(50), new  ThreadPoolExecutor.CallerRunsPolicy());
-	private static ExecutorService es2 = new ThreadPoolExecutor(10, 30, 30, TimeUnit.SECONDS, new LinkedBlockingQueue<>(50), new  ThreadPoolExecutor.CallerRunsPolicy());
+	@Autowired
+	private MailService mailService;
+
+	private static ExecutorService chapterExecutor = new ThreadPoolExecutor(10, 30, 30, TimeUnit.SECONDS, new LinkedBlockingQueue<>(50), new  ThreadPoolExecutor.CallerRunsPolicy());
+	private static ExecutorService blankChapterExecutor = new ThreadPoolExecutor(10, 30, 30, TimeUnit.SECONDS, new LinkedBlockingQueue<>(50), new  ThreadPoolExecutor.CallerRunsPolicy());
+	private static ExecutorService mailExecutor = new ThreadPoolExecutor(3, 10, 30, TimeUnit.SECONDS, new LinkedBlockingQueue<>(5), new  ThreadPoolExecutor.CallerRunsPolicy());
 
 
 	private final static String indexPage = "http://www.biquge.com.tw/";
@@ -186,7 +194,7 @@ public class BookJob {
 			for (Map.Entry<String, String> entry : newChapterMap.entrySet()) {
 				String chapterName = entry.getKey();
 				log.info(String.format("begin analyze %s-->%s...", chapterName, entry.getValue()));
-				es.execute(()->{
+				chapterExecutor.execute(()->{
 					String sourceUrl = String.format("%s/%s", book.getBaseUrl(), entry.getValue());
 					String response = HttpUtils.execGet(sourceUrl, "GBK");
 					String chapterDetail = BookUtils.getChapterDetail(response);
@@ -210,6 +218,10 @@ public class BookJob {
 
 					if(StringUtils.equals(bookLastestChapterName, chapterName)){
 						bookService.updateLastestChapterInfo(chapter);
+
+						mailExecutor.execute(()->{
+							mailService.sendChapterNotify(chapter);
+						});
 					}
 				});
 			}
@@ -233,7 +245,7 @@ public class BookJob {
 		}
 
 		chapterList.forEach(chapter->{
-			es2.execute(()->{
+			blankChapterExecutor.execute(()->{
 				String sourceUrl = chapter.getSourceUrl();
 				if(StringUtils.isBlank(sourceUrl)){
 					return;
