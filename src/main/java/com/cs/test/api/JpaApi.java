@@ -1,5 +1,6 @@
 package com.cs.test.api;
 
+import com.cs.test.annotation.JerseyResource;
 import com.cs.test.db.dao.CategoryDao;
 import com.cs.test.db.dao.CityDao;
 import com.cs.test.db.dao.PeopleDao;
@@ -17,6 +18,7 @@ import java.util.List;
 /**
  * Created by admin on 2016/12/2.
  */
+@JerseyResource
 @Path("/jpa")
 public class JpaApi {
 

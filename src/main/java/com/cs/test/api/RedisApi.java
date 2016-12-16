@@ -1,5 +1,6 @@
 package com.cs.test.api;
 
+import com.cs.test.annotation.JerseyResource;
 import com.cs.test.redis.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,6 +14,7 @@ import javax.ws.rs.core.Response;
 /**
  * Created by admin on 2016/11/30.
  */
+@JerseyResource
 @Path("/redis")
 public class RedisApi {
 

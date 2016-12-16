@@ -1,12 +1,13 @@
 package com.cs.test.db.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by admin on 2016/12/5.
  */
 @Entity
-public class People {
+public class People implements Serializable {
 	private Integer id;
 	private String name;
 	private String city;

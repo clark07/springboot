@@ -1,5 +1,6 @@
 package com.cs.test.api;
 
+import com.cs.test.annotation.JerseyResource;
 import com.cs.test.rabbit.bean.DemoMessageBean;
 import com.cs.test.rabbit.sender.MessageExchangeSender;
 import com.cs.test.rabbit.sender.MessageQueueSender;
@@ -15,6 +16,7 @@ import java.util.Map;
 /**
  * Created by admin on 2016/11/11.
  */
+@JerseyResource
 @Path("/rabbit")
 public class RabbitApi {
 

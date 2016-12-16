@@ -88,7 +88,9 @@ public class MailService {
 			helper.setSubject(String.format("书籍%s->章节%s 更新推送", chapter.getBookName(), chapter.getName()));
 
 			String content = chapter.getContent();
-			content = Arrays.stream(content.split("\r\n")).filter(StringUtils::isNotBlank).map(s->	String.format("<p style='text-align:left'>    %s</p>", s)).collect(Collectors.joining("</br>"));
+			content = Arrays.stream(content.split("\r\n")).filter(StringUtils::isNotBlank)
+							.map(s -> String.format("<p style='text-align:left'>&emsp;%s</p>", s))
+							.collect(Collectors.joining("</br>"));
 			log.info(content);
 
 
