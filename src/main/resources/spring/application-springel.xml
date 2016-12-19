@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <util:list id="list">
+        <bean id="city1" class="com.cs.test.db.entity.City" p:country="c1" p:name="n1" p:state="s1" p:map="m1"/>
+        <bean id="city2" class="com.cs.test.db.entity.City" p:country="c1" p:name="n2" p:state="s1" p:map="m1"/>
+        <bean id="city3" class="com.cs.test.db.entity.City" p:country="c1" p:name="n3" p:state="s1" p:map="m1"/>
+        <bean id="city4" class="com.cs.test.db.entity.City" p:country="c1" p:name="n4" p:state="s1" p:map="m1"/>
+        <bean id="city5" class="com.cs.test.db.entity.City" p:country="c1" p:name="n5" p:state="s1" p:map="m1"/>
+    </util:list>
+
+    <bean id="sublist" class="java.util.ArrayList">
+       <!-- <constructor-arg value="#{list.?[name=='n2' or name=='n3']}"></constructor-arg>-->
+       <!-- <constructor-arg value="#{list.![name]}"></constructor-arg>-->
+       <!-- <constructor-arg value="#{list[0]}"></constructor-arg>-->
+       <!-- <constructor-arg value="#{list.$[true]}"></constructor-arg>-->
+        <constructor-arg value="#{list.?[name.compareTo('n2') gt 0].![name]}"></constructor-arg>
+    </bean>
+</beans>

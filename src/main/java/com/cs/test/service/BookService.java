@@ -102,4 +102,11 @@ public class BookService {
 	public List<Chapter> getSimpleChapterList(int bookId) {
 		return chapterDao.getBasicChapterInfo(bookId);
 	}
+
+	public void findBookByCondition(){
+		bookDao.findAll((root, criteriaQuery, criteriaBuilder)->{
+					return null;
+				});
+
+	}
 }

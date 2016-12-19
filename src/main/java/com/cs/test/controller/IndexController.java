@@ -15,4 +15,13 @@ public class IndexController {
 	public String index(){
 		return "redirect:/index.html";
 	}
+	@GetMapping("/exception")
+	public String exception(){
+
+		String s = "".split("")[1];
+
+		return "";
+	}
+
+
 }

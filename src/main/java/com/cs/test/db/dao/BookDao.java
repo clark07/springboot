@@ -2,6 +2,7 @@ package com.cs.test.db.dao;
 
 import com.cs.test.db.entity.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,7 @@ import java.util.Set;
  * Created by admin on 2016/12/6.
  */
 @Repository
-public interface BookDao extends JpaRepository<Book, Integer> {
+public interface BookDao extends JpaRepository<Book, Integer>, JpaSpecificationExecutor<Book> {
 
 	public List<Book> findBySpiderOpenAndStatus(int spiderOpen, int status);
 

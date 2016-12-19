@@ -1,6 +1,7 @@
 package com.cs.test;
 
 import com.cs.test.annotation.JerseyResource;
+import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,8 @@ import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.SystemPropertyUtils;
+
+;
 
 /**
  * Created by admin on 2016/1/11.
@@ -26,6 +29,8 @@ public class JerseyConfig extends ResourceConfig{
 		log.info("init Jersey config...");
 
 	try {
+		//packages("com.cs.test.api");
+
 		String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX
 				+ ClassUtils.convertClassNameToResourcePath(SystemPropertyUtils.resolvePlaceholders("com.cs.test"))
 				+ "/" + DEFAULT_RESOURCE_PATTERN;
@@ -39,14 +44,16 @@ public class JerseyConfig extends ResourceConfig{
 
 		for (Resource r : resources) {
 			MetadataReader metadataReader = metadataReaderFactory.getMetadataReader(r);
-			boolean jerseyResource = metadataReader.getAnnotationMetadata().hasAnnotation(JerseyResource.class.getName());
-			if (jerseyResource) {
+			boolean isJerseyResource = metadataReader.getAnnotationMetadata().hasAnnotation(JerseyResource.class.getName());
+			if (isJerseyResource) {
 				log.info(String.format("Found jersey API-->%s", metadataReader.getClassMetadata().getClassName()));
 				register(Class.forName(metadataReader.getClassMetadata().getClassName()));
 			}
 		}
-			//register(ResponseFilter.class);
-			//register(PreMatchFilter.class);
+
+		register(LoggingFilter.class);
+		//register(ResponseFilter.class);
+		//register(PreMatchFilter.class);
 		}catch (Exception e){}
 
 	}

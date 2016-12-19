@@ -107,7 +107,7 @@ public class BookJob {
 	/**
 	 * 爬取章节列表详情
 	 */
-	@Scheduled(cron = "0 0/5 * * * ?")
+	@Scheduled(cron = "0 0/5 9-20 * * ?")
 	public void spiderBookDetail() {
 		log.info(String.format("begin exec spider book detail task"));
 		List<Book> needSpiderBooks = bookService.getSpiderBookList();
