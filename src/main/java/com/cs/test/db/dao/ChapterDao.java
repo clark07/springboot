@@ -1,6 +1,7 @@
 package com.cs.test.db.dao;
 
 import com.cs.test.db.entity.Chapter;
+import com.cs.test.db.partentity.PartChapter;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -33,4 +34,8 @@ public interface ChapterDao extends JpaRepository<Chapter, Integer> {
 
 	@Query("select new Chapter(c.id, c.name) from Chapter c where c.bookId=?1")
 	List<Chapter> getBasicChapterInfo(int bookId);
+
+	//依然使用的是全量查询 只是会对最终的结果进行加工
+	List<PartChapter> findByBookIdIn(List<Integer> bookIds);
+
 }

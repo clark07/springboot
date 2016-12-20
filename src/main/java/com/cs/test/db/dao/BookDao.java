@@ -27,4 +27,7 @@ public interface BookDao extends JpaRepository<Book, Integer>, JpaSpecificationE
 
 	@Query("select b.name from Book b")
 	public Set<String> findName();
+
+
+	public Book findById(int id);
 }

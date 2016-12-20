@@ -4,6 +4,7 @@ import com.cs.test.db.dao.BookDao;
 import com.cs.test.db.dao.ChapterDao;
 import com.cs.test.db.entity.Book;
 import com.cs.test.db.entity.Chapter;
+import com.cs.test.db.partentity.PartChapter;
 import com.cs.test.utils.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by admin on 2016/12/6.
@@ -103,10 +106,20 @@ public class BookService {
 		return chapterDao.getBasicChapterInfo(bookId);
 	}
 
-	public void findBookByCondition(){
-		bookDao.findAll((root, criteriaQuery, criteriaBuilder)->{
-					return null;
-				});
+	public List<Book> findBookByCondition(){
+		return bookDao.findAll((root, cq, cb)->{
+			//cq.where(cb.equal(root.get("name"), "门"));
+			cq.where(cb.equal(root.get("spiderOpen"), "1"));
+			return null;
+		});
+	}
+	public void findChapterByCondition(){
+		List<PartChapter> byBookIdIn = chapterDao.findByBookIdIn(Stream.of(1, 2, 3).collect(Collectors.toList()));
+		log.info(JsonUtil.getJsonFromObject(byBookIdIn));
+	}
+	public void lockBook(){
 
+		Book book = bookDao.findById(1);
+		log.info(JsonUtil.getJsonFromObject(book));
 	}
 }
