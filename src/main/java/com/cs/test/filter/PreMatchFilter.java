@@ -22,5 +22,6 @@ public class PreMatchFilter implements ContainerRequestFilter {
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 		log.info("execute PreMatchFilter");
+		requestContext.getHeaders().add("requestTime", String.valueOf(System.currentTimeMillis()));
 	}
 }

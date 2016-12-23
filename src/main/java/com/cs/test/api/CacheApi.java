@@ -3,6 +3,8 @@ package com.cs.test.api;
 import com.cs.test.annotation.JerseyResource;
 import com.cs.test.db.entity.People;
 import com.cs.test.service.PeopleService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.*;
@@ -14,6 +16,7 @@ import javax.ws.rs.core.Response;
  */
 @JerseyResource
 @Path("/cache")
+@Api(value = "cache", description = "description")
 public class CacheApi {
 
 	@Autowired
@@ -22,6 +25,7 @@ public class CacheApi {
 	@GET
 	@Path("/get")
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "value", notes = "notes")
 	public Response get(@QueryParam("id") Integer id){
 
 		People people = peopleService.getPeople(id);

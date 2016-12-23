@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
  */
 @JerseyResource
 @Path("/demo")
+//@Api(value = "demo", description = "demo用API")
 public class DemoApi {
 
 	private final static Logger log = LoggerFactory.getLogger(DemoApi.class);

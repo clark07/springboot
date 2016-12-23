@@ -17,8 +17,8 @@ import java.util.List;
  */
 @JerseyResource
 @Path("/book")
+//@Api(value = "book", description = "书本相关接口API")
 public class BookApi {
-
 
 	@Autowired
 	private BookService bookService;

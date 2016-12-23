@@ -7,6 +7,7 @@ import com.cs.test.db.dao.PeopleDao;
 import com.cs.test.db.entity.Category;
 import com.cs.test.db.entity.City;
 import com.cs.test.db.entity.People;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
@@ -20,6 +21,7 @@ import java.util.List;
  */
 @JerseyResource
 @Path("/jpa")
+@Api(value = "jpa", description = "JPA测试用API")
 public class JpaApi {
 
 

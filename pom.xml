@@ -22,6 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<springfox.version>2.2.2</springfox.version>
 	</properties>
 
 	<dependencies>
@@ -129,6 +130,40 @@
 			<scope>runtime</scope>
 		</dependency>-->
 
+		<!-- Swagger -->
+
+		<!--<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${springfox.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${springfox.version}</version>
+		</dependency>-->
+<!--		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-jersey2-jaxrs</artifactId>
+			<version>1.5.9</version>
+			&lt;!&ndash;<exclusions>
+				<exclusion>
+					<groupId>javax.ws.rs</groupId>
+					<artifactId>jsr311-api</artifactId>
+				</exclusion>
+			</exclusions>&ndash;&gt;
+		</dependency>-->
+
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-jersey2-jaxrs</artifactId>
+			<version>LATEST</version>
+		</dependency>
+<!--		<dependency>
+			<groupId>com.wordnik</groupId>
+			<artifactId>swagger-jersey2-jaxrs_2.10</artifactId>
+			<version>1.3.13</version>
+		</dependency>-->
 
 		<dependency>
 			<groupId>org.mybatis.generator</groupId>
