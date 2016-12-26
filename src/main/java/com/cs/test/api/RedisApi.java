@@ -2,7 +2,6 @@ package com.cs.test.api;
 
 import com.cs.test.annotation.JerseyResource;
 import com.cs.test.redis.RedisService;
-import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.GET;
@@ -17,7 +16,7 @@ import javax.ws.rs.core.Response;
  */
 @JerseyResource
 @Path("/redis")
-@Api(value = "redis", description = "REDIS操作相关API", basePath = "/rest")
+//@Api(value = "redis", description = "REDIS操作相关API", basePath = "/rest")
 public class RedisApi {
 
 	@Autowired

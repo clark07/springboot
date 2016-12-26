@@ -4,7 +4,6 @@ import com.cs.test.annotation.JerseyResource;
 import com.cs.test.rabbit.bean.DemoMessageBean;
 import com.cs.test.rabbit.sender.MessageExchangeSender;
 import com.cs.test.rabbit.sender.MessageQueueSender;
-import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.GET;
@@ -19,7 +18,7 @@ import java.util.Map;
  */
 @JerseyResource
 @Path("/rabbit")
-@Api(value = "rabbitmq", description = "MQ测试用API")
+//@Api(value = "rabbitmq", description = "MQ测试用API")
 public class RabbitApi {
 
 	@Autowired
