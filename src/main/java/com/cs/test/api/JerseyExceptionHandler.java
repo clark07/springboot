@@ -1,7 +1,7 @@
 package com.cs.test.api;
 
 import com.cs.test.annotation.JerseyResource;
-import com.cs.test.controller.BootReturnCode;
+import com.cs.test.response.BootReturnBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +20,7 @@ public class JerseyExceptionHandler implements ExceptionMapper<Exception> {
 	public Response toResponse(Exception e) {
 
 		log.info(String.format("handle rest exception"), e);
-		BootReturnCode error = new BootReturnCode();
+		BootReturnBean error = new BootReturnBean();
 		error.setCode(-1);
 		error.setMsg("处理rest请求出错");
 		error.setData(e.getMessage());

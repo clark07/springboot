@@ -647,7 +647,7 @@ jQuery.extend({
         }
       }
 
-    // A special, fast, case for the most common use of each
+    // A special, fast, case for the most response use of each
     } else {
       if ( isObj ) {
         for ( name in object ) {
@@ -2383,7 +2383,7 @@ jQuery.fn.extend({
         ret = elem.value;
 
         return typeof ret === "string" ?
-          // handle most common string cases
+          // handle most response string cases
           ret.replace(rreturn, "") :
           // handle cases where value is null/undef or number
           ret == null ? "" : ret;
@@ -7226,7 +7226,7 @@ jQuery.fn.extend({
   }
 });
 
-// Attach a bunch of functions for handling common AJAX events
+// Attach a bunch of functions for handling response AJAX events
 jQuery.each( "ajaxStart ajaxStop ajaxComplete ajaxError ajaxSuccess ajaxSend".split( " " ), function( i, o ){
   jQuery.fn[ o ] = function( f ){
     return this.on( o, f );

@@ -1,6 +1,9 @@
 package com.cs.test.api;
 
 import com.cs.test.api.bean.SwaggerDemoBean;
+import com.cs.test.response.BootReturnBean;
+import com.cs.test.response.BootReturnCode;
+import com.cs.test.response.ResponseBuilder;
 import io.swagger.annotations.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -26,23 +29,21 @@ public class SwaggerDemoApi {
 	@POST
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.APPLICATION_JSON})
-	@ApiOperation(value = "create swaggerDemoBean", notes = "More notes about this method",  httpMethod = "POST")
+	@ApiOperation(value = "create swaggerDemoBean", notes = "More notes about this method", response = BootReturnBean.class, httpMethod = "POST")
 	@ApiResponses(value = {
 			@ApiResponse(code = 400, message = "Invalid ID supplied"),
 			@ApiResponse(code = 404, message = "SwaggerDemoBean not found")
 	})
 	public Response createSwaggerDemo(SwaggerDemoBean swaggerDemoBean) {
-		//TODO create
-
 		String name = swaggerDemoBean.getName();
 		if(StringUtils.isBlank(name)){
-			return Response.ok(String.format("%s不允许为空!", name)).build();
+			return ResponseBuilder.build(BootReturnCode.ERROR,String.format("%s不允许为空!", name));
 		}
 
 		swaggerDemoBean.setId(ai.incrementAndGet());
 		swaggerMap.put(swaggerDemoBean.getId(), swaggerDemoBean);
 
-		return Response.ok(swaggerDemoBean).build();
+		return ResponseBuilder.build(BootReturnCode.SUCC,"", swaggerDemoBean);
 	}
 
 	@GET
@@ -54,16 +55,10 @@ public class SwaggerDemoApi {
 	})
 	public Response getSwaggerDemo(@ApiParam(value = "Resource identifier", required = false) @QueryParam("id") Integer id) {
 		if(id ==null){
-			//TODO getAll
-			return Response.status(Response.Status.NO_CONTENT).allow("OPTIONS").build();
+			return ResponseBuilder.build(BootReturnCode.SUCC);
 		}else {
-			//TODO getById
 			SwaggerDemoBean swaggerDemoBean = swaggerMap.get(id);
-			if(swaggerDemoBean != null){
-				return Response.ok(swaggerDemoBean).build();
-			}
-
-			return Response.status(Response.Status.NO_CONTENT).allow("OPTIONS").build();
+			return ResponseBuilder.build(BootReturnCode.SUCC, "", swaggerDemoBean);
 		}
 	}
 
@@ -79,8 +74,7 @@ public class SwaggerDemoApi {
 		if(swaggerMap.containsKey(id)){
 			swaggerMap.put(id, swaggerDemoBean);
 		}
-		//TODO update
-		return Response.status(Response.Status.OK).build();
+		return ResponseBuilder.build(BootReturnCode.SUCC);
 	}
 
 	@DELETE
@@ -91,10 +85,9 @@ public class SwaggerDemoApi {
 	})
 	public Response removeSwaggerDemoById(@ApiParam(value = "ID values must", required = true)
 									  @QueryParam("id") Integer id) {
-		//TODO remove
 		if(id != null){
 			swaggerMap.remove(id);
 		}
-		return Response.status(Response.Status.OK).build();
+		return ResponseBuilder.build(BootReturnCode.SUCC);
 	}
 }

@@ -1,5 +1,6 @@
 package com.cs.test.controller;
 
+import com.cs.test.response.BootReturnBean;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,7 +15,7 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler
 	@ResponseBody
-	public BootReturnCode exceptionHandler(Exception e, HttpServletResponse response){
-		return new BootReturnCode(500, "处理异常", e.getMessage());
+	public BootReturnBean exceptionHandler(Exception e, HttpServletResponse response){
+		return new BootReturnBean(500, "处理异常", e.getMessage());
 	}
 }

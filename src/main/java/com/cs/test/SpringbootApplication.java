@@ -29,7 +29,7 @@ public class SpringbootApplication {
 		registration.addInitParameter("api.version", "1.0.0");
 		registration.addInitParameter("swagger.api.basepath", "http://localhost:8080/rest");
 		registration.addInitParameter(SwaggerContextService.USE_PATH_BASED_CONFIG, "true");
-		registration.addInitParameter("scan.all.resources", "true");
+		//registration.addInitParameter("scan.all.resources", "true");
 		registration.addInitParameter("ignore.routes", "");
 
 		return registration;
