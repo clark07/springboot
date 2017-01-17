@@ -188,6 +188,9 @@ public class HttpUtils {
 		return result;
 	}
 
+	/**
+	 * 工具类
+	 */
 	@Builder
 	@ToString(exclude = {"requestCharset", "responseCharset", "requestLog", "responseLog" })
 	static class OkHttp{
@@ -198,9 +201,15 @@ public class HttpUtils {
 		private Map<String, String> queryMap;
 		private Map<String, String> headerMap;
 		private String requestCharset = DEFAULT_CHARSET;
+		/**
+		 * 是否需要输出请求日志
+		 */
 		private boolean requestLog = DEFAULT_LOG;
 
 		private String responseCharset = DEFAULT_CHARSET;
+		/**
+		 * 是否需要输出响应日志
+		 */
 		private boolean responseLog = DEFAULT_LOG;
 	}
 }
