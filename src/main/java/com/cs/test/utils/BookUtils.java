@@ -42,7 +42,7 @@ public class BookUtils {
 		//Map<String, String> topBookMap = getTopBook(HttpUtils.execGet("http://www.biquge.com.tw/kehuan/", "GBK"));
 		//List indexList = getIndexList(HttpUtils.execGet("http://www.biquge.com.tw", "GBK"));
 
-		Book book = getBookInfo(HttpUtils.execGet("http://www.biquge.com.tw/16_16273/", "GBK"));
+		Book book = getBookInfo(HttpUtils.get("http://www.biquge.com.tw/16_16273/", "GBK"));
 		System.out.println(JsonUtil.getJsonWithoutNullFromObject(book));
 	}
 

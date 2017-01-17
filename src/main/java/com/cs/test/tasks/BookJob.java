@@ -63,7 +63,7 @@ public class BookJob {
 	public void spiderBook() {
 		log.info(String.format("begin exec spider book task"));
 
-		String indexContent = HttpUtils.execGet(indexPage, "GBK");
+		String indexContent = HttpUtils.get(indexPage, "GBK");
 		List indexList = BookUtils.getIndexList(indexContent);
 
 		if(CollectionUtils.isEmpty(indexList)){
@@ -73,7 +73,7 @@ public class BookJob {
 		Map<String, String> topMap = new HashMap<>();
 
 		indexList.forEach(s->{
-			String content = HttpUtils.execGet(String.format("%s%s", indexPage, s), "GBK");
+			String content = HttpUtils.get(String.format("%s%s", indexPage, s), "GBK");
 			Map<String, String> topBookMap = BookUtils.getTopBook(content);
 			topMap.putAll(topBookMap);
 		});
@@ -84,7 +84,7 @@ public class BookJob {
 		topMap.forEach((k,v)->{
 			if(bookNameSet.contains(k)) return;
 
-			String content = HttpUtils.execGet(v, "GBK");
+			String content = HttpUtils.get(v, "GBK");
 			Book book = BookUtils.getBookInfo(content);
 			if(book != null){
 				book.setBaseUrl(indexPage);
@@ -122,7 +122,7 @@ public class BookJob {
 			long st = System.currentTimeMillis();
 
 			String indexUrl = book.getIndexUrl();
-			String content = HttpUtils.execGet(indexUrl, "GBK");
+			String content = HttpUtils.get(indexUrl, "GBK");
 
 
 			Book bookInfo = BookUtils.getBookInfo(content);
@@ -196,7 +196,7 @@ public class BookJob {
 				log.info(String.format("begin analyze %s-->%s...", chapterName, entry.getValue()));
 				chapterExecutor.execute(()->{
 					String sourceUrl = String.format("%s/%s", book.getBaseUrl(), entry.getValue());
-					String response = HttpUtils.execGet(sourceUrl, "GBK");
+					String response = HttpUtils.get(sourceUrl, "GBK");
 					String chapterDetail = BookUtils.getChapterDetail(response);
 
 					Chapter chapter = new Chapter();
@@ -251,7 +251,7 @@ public class BookJob {
 					return;
 				}
 
-				String response = HttpUtils.execGet(sourceUrl, "GBK");
+				String response = HttpUtils.get(sourceUrl, "GBK");
 				String chapterDetail = BookUtils.getChapterDetail(response);
 
 				if(StringUtils.isNotBlank(chapterDetail)){
