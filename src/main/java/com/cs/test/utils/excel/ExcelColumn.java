@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 public @interface ExcelColumn {
 	String value() default "";
 
-	/**
+	 /**
 	 *从1开始
 	 * @return
 	 */
